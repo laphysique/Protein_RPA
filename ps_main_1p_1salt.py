@@ -12,7 +12,7 @@ import time
 import multiprocessing as mp
 import numpy as np
 
-import f_min_solve as fs
+import f_min_solve_1p_1salt as fs
 import thermal_1p_and_salt as tt
 import global_vars as gv
 import seq_list as sl
@@ -23,13 +23,15 @@ gv.r_sal = 1
 gv.eta = 1 
 
 
-# change [Salt] in mM to [Salt]/[H2O]
+# convert [Salt] in mM to [Salt]/[H2O]
 phis_mM = 0 
 phis = phis_mM*0.001/(1000./18.)
 
 # ehs must be a 2-element list: the first for entropy and the latter enthalpy
 ehs = [0,0]
 
+# use  phi-dependent permittivity or not 
+ef = False
 
 if sys.argv[2] == "cri_calc":
    cri_calc_end = 1
@@ -43,7 +45,7 @@ du = 0.1
 seq_name = sys.argv[1]  # Select a sequence in seq_list.py
 sig, N, the_seq = sl.get_the_charge(seq_name)
 
-
+HP = tt.RPAFH(sig, ehs=ehs, epsfun=ef)
 
 #======================= Calculate critical point ========================
 
@@ -55,7 +57,7 @@ print('Seq:' , seq_name, '=' , the_seq ,'\nphi_s=', phis , \
 t0 = time.time()
 
 #critical_point
-phi_cri, u_cri = fs.cri_calc( phis, sig, ehs )
+phi_cri, u_cri = fs.cri_calc(HP, phis)
 
 print('Critical point found in', time.time() - t0 , 's')
 print( 'u_cri =', '{:.8e}'.format(u_cri) , \
@@ -83,9 +85,9 @@ print(uall, flush=True)
 
 
 def bisp_parallel(u):
-    sp1, sp2 = fs.ps_sp_solve( phis, sig, u, phi_cri, ehs);
+    sp1, sp2 = fs.ps_sp_solve( HP, phis, u, phi_cri  ) 
     print( u, sp1, sp2, 'sp done!', flush=True)
-    bi1, bi2 = fs.ps_bi_solve( phis, sig, u, phi_cri, [sp1, sp2], ehs  );
+    bi1, bi2 = fs.ps_bi_solve( HP, phis, u, [sp1, sp2], phi_cri) 
     print( u, bi1, bi2, 'bi done!', flush=True)
     
     return sp1, sp2, bi1, bi2

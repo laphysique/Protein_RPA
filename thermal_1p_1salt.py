@@ -47,7 +47,8 @@ def s_calc(x):
 #
 # epsfun=False   : constant permittivity
 # epsfun=True    : linear phi-dependent permittivity, eps_a, eps_b are used 
-# eps_modify_ehs : Ture if using eps_r=eps0 to rescale ehs (assuming the input ehs is of eps_r=1) 
+# eps_modify_ehs : Ture if using eps_r=eps0 to rescale ehs 
+#                  (assuming the input ehs is of eps_r=1) 
 def RPAFH(sig, ehs=[0,0], epsfun=False, eps_modify_ehs=False, 
           eps_a = 18.931087269965023,
           eps_b = 84.51003476887941  ):
