@@ -87,13 +87,13 @@ def Heteropolymer(sigma, zs=1, zc=1, w2=4*pi/3, wd=1/6, FH_funs=None):
   
     # Default is a Flory-Huggins model
     if FH_fun is None:
-        HP['FH']   = lambda u, phi: (w2/2 - eh*u - es)*phi*phi
-        dHP['FH']  = lambda u, phi: (w2 - 2*eh*u - 2*es)*phi
-        ddHP['FH'] = lambda u, phi: (w2 - 2*eh*u - 2*es)
+        HP['FH']   = lambda phi, u: (w2/2 - eh*u - es)*phi*phi
+        HP['dFH']  = lambda phi, u: (w2 - 2*eh*u - 2*es)*phi
+        HP['ddFH'] = lambda phi, u: (w2 - 2*eh*u - 2*es)
     else: 
-        HP['FH'] = lambda u, phi: FH_fun[0](u,phi) + w2/2*phi*phi
-        dHP['FH'] = lambda u, phi: FH_fun[1](u,phi) + w2*phi
-        ddHP['FH'] = lambda u, phi: FH_fun[2](u,phi) + w2
+        HP['FH']   = lambda phi, u: FH_fun[0](phi,u) + w2/2*phi*phi
+        HP['dFH']  = lambda phi, u: FH_fun[1](phi,u) + w2*phi
+        HP['ddFH'] = lambda phi, u: FH_fun[2](phi,u) + w2
 
 
 #---------------------------------- Entropy -----------------------------------
@@ -613,7 +613,7 @@ def f_eng(HP, phi, phis, u, x=None):
         return np.nan
 
     return enp(HP,phi,phis) + fscr(HP,phi,phis,u) + frpa(HP,phi,phis,u,x) \
-           + (HP['w2']/2 - eh*u - es)*phi*phi
+           + HP['FH'](phi,u)
 
 # 1st derivatives of system free energy
 def df_eng(HP, phi, phis, u, x=None, dx=None):
@@ -623,7 +623,7 @@ def df_eng(HP, phi, phis, u, x=None, dx=None):
     dfsc_p, dfsc_s = dfscr(HP,phi,phis,u) 
     df2l_p, df2l_s = dfrpa(HP,phi,phis,u,x,dx)
 
-    dfp = denp_p(HP,phi,phis) + dfsc_p + df2l_p + ( HP['w2'] - 2*eh*u - 2*es)*phi
+    dfp = denp_p(HP,phi,phis) + dfsc_p + df2l_p + HP['dFH'](phi,u)
     dfs = denp_s(HP,phi,phis) + dfsc_s + df2l_s 
 
     return dfp, dfs
@@ -633,7 +633,7 @@ def ddf_eng(HP, phi, phis, u, x=None, dx=None, ddx=None):
     ddfsc_pp, ddfsc_ss, ddfsc_ps = ddfscr(HP,phi,phis,u)
     ddf2l_pp, ddf2l_ss, ddf2l_ps = ddfrpa(HP,phi,phis,u,x,dx,ddx)
 
-    ddfpp = ddenp_pp(HP,phi,phis) + ddfsc_pp + ddf2l_pp + ( HP['w2'] - 2*eh*u - 2*es)
+    ddfpp = ddenp_pp(HP,phi,phis) + ddfsc_pp + ddf2l_pp + HP['ddFH'](phi,u)
     ddfss = ddenp_ss(HP,phi,phis) + ddfsc_ss + ddf2l_ss
     ddfps = ddenp_ps(HP,phi,phis) + ddfsc_ps + ddf2l_ps
  

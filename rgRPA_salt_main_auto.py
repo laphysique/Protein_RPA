@@ -1,3 +1,10 @@
+# Apr 27, 2020
+# - Upload to GitHub
+# - thermal_funcs.py is renamed as thermal_rgRPA_1p_1salt.py
+# - fmin_solve is renamed as fmin_rgRPA_1p_1salt.py
+# - fsalt_solve is renamed as fsalt_rgRPA_1p_1salt.py
+
+
 # Dec 4, 2019
 # Short script for 2D diagram
 
@@ -13,12 +20,10 @@ import time
 import multiprocessing as mp
 import numpy as np
 
-import fmin_solve as fs
-import fsalt_solve as fss
-import thermal_funcs as tt
+import fmin_rgRPA_1p_1salt as fs
+import fsalt_rgRPA_1p_1salt as fss
+import thermal_rgRPA_1p_1salt as tt
 import seq_list as sl
-
-
 
 # Select a sequence in seq_list.py
 seqname = sys.argv[1]
