@@ -13,7 +13,7 @@ import multiprocessing as mp
 import numpy as np
 
 import f_min_solve_1p_1salt as fs
-import thermal_1p_and_salt as tt
+import thermal_1p_1salt as tt
 import global_vars as gv
 import seq_list as sl
 
