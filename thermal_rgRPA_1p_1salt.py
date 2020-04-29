@@ -86,7 +86,7 @@ def Heteropolymer(sigma, zs=1, zc=1, w2=4*pi/3, wd=1/6, FH_funs=None):
 
   
     # Default is a Flory-Huggins model
-    if FH_fun is None:
+    if FH_funs is None:
         HP['FH']   = lambda phi, u: (w2/2 - eh*u - es)*phi*phi
         HP['dFH']  = lambda phi, u: (w2 - 2*eh*u - 2*es)*phi
         HP['ddFH'] = lambda phi, u: (w2 - 2*eh*u - 2*es)
@@ -95,6 +95,7 @@ def Heteropolymer(sigma, zs=1, zc=1, w2=4*pi/3, wd=1/6, FH_funs=None):
         HP['dFH']  = lambda phi, u: FH_fun[1](phi,u) + w2*phi
         HP['ddFH'] = lambda phi, u: FH_fun[2](phi,u) + w2
 
+    return HP
 
 #---------------------------------- Entropy -----------------------------------
 
