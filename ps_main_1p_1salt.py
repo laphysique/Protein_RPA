@@ -60,7 +60,8 @@ t0 = time.time()
 phi_cri, u_cri = fs.cri_calc(HP, phis)
 
 print('Critical point found in', time.time() - t0 , 's')
-print( 'u_cri =', '{:.8e}'.format(u_cri) , \
+print( 'u_cri =', '{:.4e}'.format(u_cri) , 
+       'T*_cri = {:.4f}'.format(1/u_cri),
        ', phi_cri =','{:.8e}'.format(phi_cri) )
 
 if(cri_calc_end):
@@ -115,7 +116,7 @@ print(bi_out)
 monosize = str(gv.r_res) + '_' + str(gv.r_con) + '_' + str(gv.r_sal)
 ehs_str = '_'.join(str(x) for x in ehs )
 
-calc_info = '_RPAFH_N{}_phis_{:.4f}_{}_eh{:.2f}_es{:.2f}_umax{:.2f}_du{:.2f}_ddu{:.2f}.txt'.format(
+calc_info = '_RPAFH_N{}_phis_{:.5f}_{}_eh{:.2f}_es{:.2f}_umax{:.2f}_du{:.2f}_ddu{:.2f}.txt'.format(
              N, phis, seq_name,ehs[0], ehs[1],new_umax,du,ddu)
 sp_file = './results/sp' + calc_info
 bi_file = './results/bi' + calc_info
