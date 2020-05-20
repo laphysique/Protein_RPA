@@ -24,11 +24,11 @@ gv.eta = 1
 
 
 # convert [Salt] in mM to [Salt]/[H2O]
-phis_mM = 0 
+phis_mM = float(sys.argv[5])
 phis = phis_mM*0.001/(1000./18.)
 
 # ehs must be a 2-element list: the first for entropy and the latter enthalpy
-ehs = [0,0]
+ehs = [float(x) for x in sys.argv[3:5]]
 
 # use  phi-dependent permittivity or not 
 ef = False
