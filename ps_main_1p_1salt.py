@@ -115,11 +115,8 @@ print(bi_out)
 monosize = str(gv.r_res) + '_' + str(gv.r_con) + '_' + str(gv.r_sal)
 ehs_str = '_'.join(str(x) for x in ehs )
 
-calc_info = '_RPAFH_N' + str(N) + '_phis' + str(phis) + '_' + seq_name + \
-            '_ehs' + ehs_str + '_umax' + str(new_umax) + \
-            '_du' + str(du) + '_ddu' + str(ddu) + \
-            '.txt'
-
+calc_info = '_RPAFH_N{}_phis_{:.4f}_{}_eh{:.2f}_es{:.2f}_umax{:.2f}_du{:.2f}_ddu{:.2f}.txt'.format(
+             N, phis, seq_name,ehs[0], ehs[1],new_umax,du,ddu)
 sp_file = './results/sp' + calc_info
 bi_file = './results/bi' + calc_info
 
