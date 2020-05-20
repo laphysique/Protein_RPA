@@ -92,7 +92,7 @@ def bisp_parallel(u):
     
     return sp1, sp2, bi1, bi2
 
-pool = mp.Pool(processes=80)
+pool = mp.Pool(processes=4)
 sp1ss, sp2ss, bi1ss, bi2ss = zip(*pool.map(bisp_parallel, uall))
 
 ind_slc = np.where(np.array(bi1ss) > gv.phi_min_sys)[0]
@@ -120,8 +120,8 @@ calc_info = '_RPAFH_N' + str(N) + '_phis' + str(phis) + '_' + seq_name + \
             '_du' + str(du) + '_ddu' + str(ddu) + \
             '.txt'
 
-sp_file = '../results/sp' + calc_info
-bi_file = '../results/bi' + calc_info
+sp_file = './results/sp' + calc_info
+bi_file = './results/bi' + calc_info
 
 print(sp_file)
 print(bi_file)
