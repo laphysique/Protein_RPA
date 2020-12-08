@@ -22,4 +22,4 @@ J. P. Brady, P. J. Farber, A. Sekhar, Y.-H. Lin, R. Huang, A. Bah, T. J. Nott, H
 S. Das, A. Eisen, Y.-H. Lin, and H. S. Chan, J. Phys. Chem. B 122, 5418–5431 (2018)  
 S. Das, A. N. Amin, Y.-H. Lin, and H. S. Chan, Phys. Chem. Chem. Phys. 20, 28558–28574 (2018)   
 S. P. O. Danielsen, J. McCarty, J.-E. Shea, K. T. Delaney, and G. H. Fredrickson, PNAS 116 8224-8232 (2019)   
-S. Das, Y.-H. Lin, R. Vernon, J. D. Forman-Kay, and H. S. Chan, in preparation (2020)   
+S. Das, Y.-H. Lin, R. Vernon, J. D. Forman-Kay, and H. S. Chan, PNAS 117, 28795--28805 (2020)   
