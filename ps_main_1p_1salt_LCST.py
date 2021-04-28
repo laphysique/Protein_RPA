@@ -1,7 +1,10 @@
 # RPA+FH model for single charge sequence
 # Short-range interaction contributes to only the k=0 FH term
 # The FH term ehs parameters follow the definition in the PRL paper
-
+#
+# Code for LCST. Of course, one needs negative ehs[0] and positive ehs[1]
+# Even that does not guarantee LCST. One needs to tune these values.
+#
 # ver Git.1 Apr 14, 2020
 # Upload to github
 
@@ -12,7 +15,7 @@ import time
 import multiprocessing as mp
 import numpy as np
 
-import f_min_solve_1p_1salt as fs
+import f_min_solve_1p_1salt_LCST as fs
 import thermal_1p_1salt as tt
 import global_vars as gv
 import seq_list as sl
@@ -37,7 +40,7 @@ if sys.argv[2] == "cri_calc":
    cri_calc_end = 1
 else:
    cri_calc_end = 0
-   umax = float(sys.argv[2])
+   umin = float(sys.argv[2])
 
 du = 0.1
 
@@ -69,15 +72,17 @@ if(cri_calc_end):
 
 #============================ Set up u range =============================
 ddu = du/10;
-umin = (np.floor(u_cri/ddu)+1)*ddu
-uclose = (np.floor(u_cri/du)+2)*du
-if umax < u_cri:
-    umax = np.floor(u_cri*1.5) 
-if uclose > umax:
-    uclose = umax
+umax = (np.ceil(u_cri/ddu)-1)*ddu
+uclose = (np.ceil(u_cri/du)-2)*du
+if umin > u_cri:
+    umin = u_cri/1.5
+if uclose < umin:
+    uclose = umin
 
-uall = np.append( np.arange(umin, uclose, ddu ), \
-                  np.arange(uclose, umax+du, du ) )
+uall = np.append( np.arange(umax, uclose, -ddu ), \
+                  np.arange(uclose, umin-du, -du ) )
+
+
 
 print(uall, flush=True)
 
@@ -93,8 +98,22 @@ def bisp_parallel(u):
     
     return sp1, sp2, bi1, bi2
 
+#Sequential, for testing:
+#sp1ss = []
+#sp2ss = []
+#bi1ss = []
+#bi2ss = []
+#for  u_i in uall:
+#    print("u_i=", u_i)
+#    result = bisp_parallel(u_i)
+#    sp1ss.append(result[0])
+#    sp2ss.append(result[1])
+#    bi1ss.append(result[2])
+#    bi2ss.append(result[3])
+
 pool = mp.Pool(processes=4)
 sp1ss, sp2ss, bi1ss, bi2ss = zip(*pool.map(bisp_parallel, uall))
+
 
 ind_slc = np.where(np.array(bi1ss) > gv.phi_min_sys)[0]
 unew = uall[ind_slc]
@@ -116,8 +135,10 @@ print(bi_out)
 monosize = str(gv.r_res) + '_' + str(gv.r_con) + '_' + str(gv.r_sal)
 ehs_str = '_'.join(str(x) for x in ehs )
 
+
 calc_info = '_RPAFH_N{}_phis_{:.5f}_{}_eh{:.2f}_es{:.2f}_umax{:.2f}_du{:.2f}_ddu{:.2f}.txt'.format(
              N, phis, seq_name,ehs[0], ehs[1],new_umax,du,ddu)
+
 sp_file = './results/sp' + calc_info
 bi_file = './results/bi' + calc_info
 
